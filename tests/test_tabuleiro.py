@@ -49,3 +49,13 @@ def test_partida_termina_depois_da_rodada_12() -> None:
 
 def test_mesma_semente_mesma_mao() -> None:
     assert [p.saidas for p in t.nova_partida().mao] == [p.saidas for p in t.nova_partida().mao]
+
+
+CARTAS = {"isolante", "ponte", "curto"}
+
+
+def test_cada_jogador_comeca_com_as_tres_cartas() -> None:
+    estado = t.nova_partida()
+    assert len(estado.cartas) == 4
+    for cartas_do_jogador in estado.cartas:
+        assert cartas_do_jogador == CARTAS

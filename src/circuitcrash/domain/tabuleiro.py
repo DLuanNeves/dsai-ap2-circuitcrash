@@ -104,6 +104,7 @@ class EstadoPartida:
     historico: list[str] = field(default_factory=list)
     energizados: set[tuple[int, int]] = field(default_factory=set)
     sorteio: random.Random = field(default_factory=lambda: random.Random(42))
+    cartas: list[set[str]] = field(default_factory=list)
 
     @property
     def terminou(self) -> bool:
@@ -135,7 +136,9 @@ def _colocar(estado: EstadoPartida, linha: int, coluna: int, saidas: str, dono: 
 def nova_partida() -> EstadoPartida:
     """Monta o tabuleiro de demonstração já no meio da partida (rodada 6)."""
     casas = [[Casa() for _ in range(TAMANHO)] for _ in range(TAMANHO)]
-    estado = EstadoPartida(casas=casas, mao=[], pontos=[0, 0, 0, 0], rodada=6)
+    estado = EstadoPartida(
+        casas=casas, mao=[], pontos=[0, 0, 0, 0], rodada=6, cartas=[{"isolante", "ponte", "curto"} for _ in range(4)]
+    )
 
     casas[3][3] = Casa(TipoCasa.FONTE)
     for j in JOGADORES_DEMO:
