@@ -4,7 +4,7 @@ Puzzle de circuitos por turnos para 4 jogadores, jogado no navegador do computad
 
 **Dupla:** Henrique Lima e Severino Sobrinho
 
-**Jogue online:** <https://circuitcrash.onrender.com/> (plano gratuito do Render: o primeiro acesso depois de um tempo parado pode levar alguns segundos)
+**Jogue online:** <https://circuitcrash-7ohn.onrender.com/> (plano gratuito do Render: o primeiro acesso depois de um tempo parado pode levar alguns segundos)
 
 Esta versão traz a **interface web completa**: partida de demonstração jogável, perfil, loja de avatares, ranking e regras. Os dados ficam num **banco SQLite** (ou PostgreSQL), ou em memória se nenhum banco for configurado. Quem quiser entra com a **conta Google** e ganha um perfil próprio; sem login, os perfis de demonstração continuam funcionando.
 
