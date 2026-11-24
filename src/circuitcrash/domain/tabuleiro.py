@@ -341,3 +341,19 @@ def classificacao(estado: EstadoPartida) -> list[tuple[int, Jogador, int]]:
     """Lista (colocação, jogador, pontos), do 1º ao 4º."""
     ordem = sorted(JOGADORES_DEMO, key=lambda j: (-estado.pontos[j.indice], j.indice))
     return [(i + 1, j, estado.pontos[j.indice]) for i, j in enumerate(ordem)]
+
+
+def usar_isolante(estado: EstadoPartida, jogador: int, linha: int, coluna: int) -> None:
+    """Carta Isolante: bloqueia uma casa vazia até o fim da partida."""
+    if "isolante" not in estado.cartas[jogador]:
+        estado.mensagem = "Você já usou a carta Isolante."
+        estado.erro = True
+        return
+    if not _dentro(linha, coluna) or estado.casa(linha, coluna).tipo != TipoCasa.VAZIA:
+        estado.mensagem = "O Isolante só pode ser usado numa casa vazia."
+        estado.erro = True
+        return
+    estado.casas[linha][coluna] = Casa(TipoCasa.BLOQUEIO)
+    estado.cartas[jogador].discard("isolante")
+    estado.mensagem = "Isolante usado: a casa foi bloqueada."
+    estado.erro = False

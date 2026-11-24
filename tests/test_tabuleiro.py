@@ -59,3 +59,34 @@ def test_cada_jogador_comeca_com_as_tres_cartas() -> None:
     assert len(estado.cartas) == 4
     for cartas_do_jogador in estado.cartas:
         assert cartas_do_jogador == CARTAS
+
+
+def test_isolante_bloqueia_casa_vazia_e_gasta_a_carta() -> None:
+    estado = t.nova_partida()
+    t.usar_isolante(estado, 0, 2, 0)
+    assert estado.casa(2, 0).tipo == t.TipoCasa.BLOQUEIO
+    assert "isolante" not in estado.cartas[0]
+    assert not estado.erro
+
+
+def test_isolante_em_casa_ocupada_e_recusado() -> None:
+    estado = t.nova_partida()
+    t.usar_isolante(estado, 0, 3, 3)
+    assert estado.erro
+    assert estado.casa(3, 3).tipo == t.TipoCasa.FONTE
+    assert "isolante" in estado.cartas[0]
+
+
+def test_isolante_so_pode_ser_usado_uma_vez() -> None:
+    estado = t.nova_partida()
+    t.usar_isolante(estado, 0, 2, 0)
+    t.usar_isolante(estado, 0, 2, 3)
+    assert estado.erro
+    assert estado.casa(2, 3).tipo == t.TipoCasa.VAZIA
+
+
+def test_casa_bloqueada_pelo_isolante_nao_aceita_peca() -> None:
+    estado = t.nova_partida()
+    t.usar_isolante(estado, 0, 2, 0)
+    assert not t.jogar_na_casa(estado, 2, 0)
+    assert estado.casa(2, 0).tipo == t.TipoCasa.BLOQUEIO
