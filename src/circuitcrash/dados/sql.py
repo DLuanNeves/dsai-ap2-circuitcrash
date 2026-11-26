@@ -275,6 +275,48 @@ class RepositorioSQL:
                 setattr(linha, campo, getattr(jogador, campo))
             s.add(linha)
 
+
+
+    def salvar_progresso(
+    self,
+    jogador_id: str,
+    missoes: list[Missao],
+    conquistas: list[Conquista],
+) -> None:
+    """Grava no banco o progresso atualizado de missões e conquistas."""
+    dia = self._hoje()
+    with self._sessao.begin() as s:
+        for missao in missoes:
+            linha = s.get(TabelaProgressoMissao, (jogador_id, missao.id, dia))
+            if linha is None:
+                s.add(
+                    TabelaProgressoMissao(
+                        jogador_id=jogador_id,
+                        missao_id=missao.id,
+                        dia=dia,
+                        progresso=missao.progresso_atual,
+                    )
+                )
+            else:
+                linha.progresso = missao.progresso_atual
+
+        for conquista in conquistas:
+            linha = s.get(
+                TabelaProgressoConquista, (jogador_id, conquista.id)
+            )
+            if linha is None:
+                s.add(
+                    TabelaProgressoConquista(
+                        jogador_id=jogador_id,
+                        conquista_id=conquista.id,
+                        progresso=conquista.progresso_atual,
+                    )
+                )
+            else:
+                linha.progresso = conquista.progresso_atual
+
+    
+
     def vincular_google(self, jogador_id: str, google_sub: str) -> bool:
         with self._sessao.begin() as s:
             linha = s.get(TabelaJogador, jogador_id)
