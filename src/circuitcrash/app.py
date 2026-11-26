@@ -33,6 +33,7 @@ from circuitcrash.domain.modelos import PRECOS, Jogador, Raridade, ResultadoPart
 from circuitcrash.login import google
 from circuitcrash.mcps import servidor as servidor_mcp
 from circuitcrash.web import visao
+from circuitcrash.domain.progresso import AtualizadorDeMissoes, ResultadoPartida as ResultadoProgresso
 
 AQUI = Path(__file__).parent
 templates = Jinja2Templates(directory=str(AQUI / "web" / "templates"))
@@ -315,6 +316,26 @@ def _gravar_se_terminou(request: Request, estado: tabuleiro.EstadoPartida) -> bo
     jogador = _jogador(request)
     resultado = economia.resultado_da_demo(jogador, estado, repo.fagulhas_ganhas_hoje(jogador.id))
     repo.registrar_partida(jogador.id, resultado)
+    repo.registrar_partida(jogador.id, resultado)
+
+# --- INÍCIO DA INTEGRAÇÃO DE MISSÕES E CONQUISTAS (Spec 014) ---
+missoes = repo.missoes_do_dia(jogador.id)
+conquistas = repo.conquistas_do_jogador(jogador.id)
+
+res_progresso = ResultadoProgresso(
+    colocacao=getattr(resultado, 'colocacao', 4),
+    fagulhas_ganhas=getattr(resultado, 'fagulhas', 10),
+    vitorias=1 if getattr(resultado, 'colocacao', 4) == 1 else 0
+)
+
+atualizador = AtualizadorDeMissoes(missoes=missoes, conquistas=conquistas)
+atualizador.processar_partida(res_progresso)
+
+repo.salvar_progresso(jogador.id, missoes, conquistas)
+# --- FIM DA INTEGRAÇÃO ---
+
+_resultados[chave] = resultado
+return True
     _resultados[chave] = resultado
     return True
 
