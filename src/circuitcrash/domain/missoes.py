@@ -1,5 +1,6 @@
 from dataclasses import dataclass
 from datetime import date
+from typing import Optional, Any
 
 
 @dataclass
@@ -8,10 +9,10 @@ class Missao:
     descricao: str
     recompensa_fagulhas: int
     meta: int
+    tipo: Optional[Any] = None
     progresso_atual: int = 0
     data_expiracao: date | None = None
 
-    # Apelidos para o template HTML (perfil.html)
     @property
     def titulo(self) -> str:
         return self.descricao
@@ -36,7 +37,6 @@ class Conquista:
     meta: int
     progresso_atual: int = 0
 
-    # Apelidos para o template HTML (perfil.html)
     @property
     def nome(self) -> str:
         return self.titulo
