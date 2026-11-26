@@ -11,6 +11,15 @@ class Missao:
     progresso_atual: int = 0
     data_expiracao: date | None = None
 
+    # Apelidos para o template HTML (perfil.html)
+    @property
+    def titulo(self) -> str:
+        return self.descricao
+
+    @property
+    def progresso(self) -> int:
+        return self.progresso_atual
+
     @property
     def concluida(self) -> bool:
         return self.progresso_atual >= self.meta
@@ -27,9 +36,22 @@ class Conquista:
     meta: int
     progresso_atual: int = 0
 
+    # Apelidos para o template HTML (perfil.html)
+    @property
+    def nome(self) -> str:
+        return self.titulo
+
+    @property
+    def progresso(self) -> int:
+        return self.progresso_atual
+
     @property
     def desbloqueada(self) -> bool:
         return self.progresso_atual >= self.meta
+        
+    @property
+    def concluida(self) -> bool:
+        return self.desbloqueada
 
     def avancar(self, quantidade: int = 1) -> None:
         if not self.desbloqueada:
