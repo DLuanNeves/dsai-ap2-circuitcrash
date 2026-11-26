@@ -24,7 +24,7 @@ CATALOGO_DIARIO = [
     TemplateMissao(TipoMissao.VENCER_PARTIDAS, "Vença 1 partida hoje", 1, 100),
     TemplateMissao(TipoMissao.GANHAR_FAGULHAS, "Ganhe 150 Fagulhas hoje", 150, 50),
     TemplateMissao(TipoMissao.USAR_AVATAR, "Jogue com 2 avatares diferentes", 2, 75),
-    TemplateMissao(TipoMissao.CAPTURAR_BATERIAS, "Capture 5 baterias em partidas", 5, 50),
+    TemplateMissao(TipoMissao.CAPTURAR_BATERIAS, "Capture 5 baterias", 5, 50),
 ]
 
 
@@ -37,7 +37,8 @@ def gerar_missoes_do_dia(data_str: str) -> list[Missao]:
             descricao=template.descricao,
             recompensa_fagulhas=template.recompensa,
             meta=template.meta,
-            progresso_atual=0
+            progresso_atual=0,
+            tipo=template.tipo
         )
         missoes_geradas.append(missao)
     return missoes_geradas
