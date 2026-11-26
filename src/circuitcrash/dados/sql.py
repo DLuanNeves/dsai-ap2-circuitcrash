@@ -328,3 +328,43 @@ class RepositorioSQL:
                 return False
             linha.google_sub = google_sub
             return True
+
+    def salvar_progresso(
+    self,
+    jogador_id: str,
+    missoes: list[Missao],
+    conquistas: list[Conquista],
+) -> None:
+    """Grava no banco o progresso atualizado de missões e conquistas."""
+    dia = self._hoje()
+    with self._sessao.begin() as s:
+        # Salva o progresso das missões
+        for missao in missoes:
+            linha = s.get(TabelaProgressoMissao, (jogador_id, missao.id, dia))
+            if linha is None:
+                s.add(
+                    TabelaProgressoMissao(
+                        jogador_id=jogador_id,
+                        missao_id=missao.id,
+                        dia=dia,
+                        progresso=missao.progresso_atual,
+                    )
+                )
+            else:
+                linha.progresso = missao.progresso_atual
+
+        # Salva o progresso das conquistas
+        for conquista in conquistas:
+            linha = s.get(
+                TabelaProgressoConquista, (jogador_id, conquista.id)
+            )
+            if linha is None:
+                s.add(
+                    TabelaProgressoConquista(
+                        jogador_id=jogador_id,
+                        conquista_id=conquista.id,
+                        progresso=conquista.progresso_atual,
+                    )
+                )
+            else:
+                linha.progresso = conquista.progresso_atual
