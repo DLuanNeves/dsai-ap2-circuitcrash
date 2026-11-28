@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 from datetime import date
-from typing import Optional, Any
+from typing import Optional
 
 
 @dataclass
@@ -9,9 +9,9 @@ class Missao:
     descricao: str
     recompensa_fagulhas: int
     meta: int
-    tipo: Optional[Any] = None
+    tipo: Optional[str] = None
     progresso_atual: int = 0
-    data_expiracao: date | None = None
+    data_expiracao: Optional[date] = None
 
     @property
     def titulo(self) -> str:
