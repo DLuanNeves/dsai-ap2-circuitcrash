@@ -1,4 +1,4 @@
-from circuitcrash.domain.missoes import Missao, Conquista
+from circuitcrash.domain.missoes import Conquista, Missao
 from circuitcrash.domain.progresso import AtualizadorDeMissoes, ResultadoPartida
 
 
