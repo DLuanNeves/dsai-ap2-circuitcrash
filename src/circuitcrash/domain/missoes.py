@@ -48,7 +48,7 @@ class Conquista:
     @property
     def desbloqueada(self) -> bool:
         return self.progresso_atual >= self.meta
-        
+
     @property
     def concluida(self) -> bool:
         return self.desbloqueada
