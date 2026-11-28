@@ -22,8 +22,6 @@ class AtualizadorDeMissoes:
         for missao in self.missoes:
             if missao.concluida:
                 continue
-                
-            # Lógica inteligente baseada no tipo da missão
             if missao.tipo == TipoMissao.JOGAR_PARTIDAS:
                 missao.avancar(1)
             elif missao.tipo == TipoMissao.VENCER_PARTIDAS and resultado.vitorias > 0:
@@ -31,13 +29,12 @@ class AtualizadorDeMissoes:
             elif missao.tipo == TipoMissao.GANHAR_FAGULHAS:
                 missao.avancar(resultado.fagulhas_ganhas)
             elif missao.tipo == TipoMissao.USAR_AVATAR:
-                missao.avancar(1) 
+                missao.avancar(1)
             elif missao.tipo == TipoMissao.CAPTURAR_BATERIAS:
                 missao.avancar(resultado.baterias_capturadas)
             else:
                 missao.avancar(1)
 
         for conquista in self.conquistas:
-            if not conquista.desbloqueada:
-                if resultado.vitorias > 0:
-                    conquista.avancar(resultado.vitorias)
+            if not conquista.desbloqueada and resultado.vitorias > 0:
+                conquista.avancar(resultado.vitorias)
