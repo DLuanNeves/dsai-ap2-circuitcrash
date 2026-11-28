@@ -38,7 +38,7 @@ def gerar_missoes_do_dia(data_str: str) -> list[Missao]:
             recompensa_fagulhas=template.recompensa,
             meta=template.meta,
             progresso_atual=0,
-            tipo=template.tipo
+            tipo=template.tipo,
         )
         missoes_geradas.append(missao)
     return missoes_geradas
